@@ -15,6 +15,10 @@ var UserSchema = new Schema({
         type: String,
         unique: true,
         spare: true
+    },
+    phoneNo: {
+        type: Number,
+        unique: true
     }
 }, {
     timestamps: true
