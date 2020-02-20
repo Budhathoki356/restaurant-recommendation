@@ -19,6 +19,18 @@ var UserSchema = new Schema({
     phoneNo: {
         type: Number,
         unique: true
+    },
+    location: {
+        type: String,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user', 'visitor'],
+        default: 'user'
+    },
+    activeStatus: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true
