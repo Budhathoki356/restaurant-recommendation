@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var config = require('./index');
 
-mongoose.connect(config.dbUrl + '/' + config.dbName, function (err, done) {
-    if(err) 
+mongoose.set('useCreateIndex', true);
+
+mongoose.connect(config.dbUrl + '/' + config.dbName, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, done) {
+    if (err)
         console.log('Error in connecting to db.');
-    else 
+    else
         console.log('db connection success.');
 });

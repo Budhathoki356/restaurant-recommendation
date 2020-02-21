@@ -1,18 +1,13 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config/index');
 
-module.exports = authorize;
-
-function authorize(roles = []) {
-    if(typeof roles === 'string') {
-        roles = [roles];
-    }
-
-    return function(req, res,next) {
-        if(roles.length && !roles.includes(req.loggedInUser.role)) {
-            return res.status(401).json({message: 'Unauthorized'});
-        }
-        // authorization successful
-        next();
+module.exports = function(req, res, next) {
+    if (req.loggedInUser.role === 'admin') {
+        console.log('hello form admin');
+        return next();
+    } else {
+        return res.status(403).json({
+            message: 'Permission denied.'
+        })
     }
 }

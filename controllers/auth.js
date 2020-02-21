@@ -9,7 +9,7 @@ var mapUser = require('../helpers/map_user_req');
 // To GENETRATE TOKEN
 
 function generateToken(user) {
-    return jwt.sign({ _id: user._id }, config.jwtSecretKey);
+    return jwt.sign({ _id: user._id, roless: user.roles }, config.jwtSecretKey);
 }
 
 

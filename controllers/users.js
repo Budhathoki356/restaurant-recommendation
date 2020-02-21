@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passwordHash = require('password-hash');
 var UserModel = require('../models/user.model');
-// var authorize = require('../middlewares/authorize');
+var authorize = require('../middlewares/authorize');
 var mapUser = require('../helpers/map_user_req');
 
 
@@ -10,7 +10,7 @@ var mapUser = require('../helpers/map_user_req');
  * GET all user
  * */
 router.route('/')
-    .get(function (req, res, next) {
+    .get(authorize, function (req, res, next) {
         UserModel.find({})
             .exec(function (err, users) {
                 if (err) {
@@ -26,7 +26,7 @@ router.route('/')
  *  Get user by Id
  */
 router.route('/:id')
-    .get(function (req, res, next) {
+    .get(authorize, function (req, res, next) {
         console.log('\n req.params =>', req.params);
         var userid = req.params.id;
         UserModel.findById({ _id: userid }).exec(function (err, user) {
@@ -44,7 +44,7 @@ router.route('/:id')
     })
 
     // Update User By Id
-    .put(function (req, res, next) {
+    .put(authorize, function (req, res, next) {
         var userId = req.params.id;
         UserModel.findById({ _id: userId })
             .exec()
@@ -77,7 +77,7 @@ router.route('/:id')
     })
 
     // delete user by id
-    .delete(function (req, res, next) {
+    .delete(authorize, function (req, res, next) {
         var userId = req.params.id;
         UserModel.findOne({ _id: userId })
             .exec(function (err, user) {
