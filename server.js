@@ -7,7 +7,6 @@ var path = require('path');
 var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
 var authenticate = require('./middlewares/authenticate');
-// var authorize = require('./middlewares/authorize');
 
 require('./config/mongoose.config');
 
@@ -27,6 +26,7 @@ app.use('/file', express.static(__dirname + '/file'));
 app.use('/auth', authRoute);
 app.use('/user', authenticate, userRoute);
 
+// establish connections
 app.listen(app.get('port'), function (err, data) {
     if (err)
         console.log('Fail to connect.');
