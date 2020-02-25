@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 });
 
 function fileFilter(req, file, cb) {
-    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg'  ) {
+    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
         cb(null, true);
     } else {
         req.fileUplaodFailed = true;
@@ -36,6 +36,7 @@ function fileFilter(req, file, cb) {
 }
 var upload = multer({
     storage: storage,
+    fileFilter: fileFilter
 });
 
 
@@ -65,14 +66,12 @@ router.route('/foodItem')
     })
     .post(authorize, upload.single('image'), function (req, res, next) {
         var newFoodItem = new FoodModel({});
-        console.log('req.body for fooditem =', req.body);
-        console.log('req.body for fooditem =', req.file);
-        if(req.file){
+        if (req.file) {
             var mimetype = req.file.mimetype;
             var image = mimetype.split("/")[0];
-            if(image != 'image') {
-                fs.unlink('./files/images/' + req.file.filename, function(err ,done){
-                    if(err) {
+            if (image != 'image') {
+                fs.unlink('./files/images/' + req.file.filename, function (err, done) {
+                    if (err) {
                         console.log('Delection failed');
                     } else {
                         console.log('File delete success.');
@@ -84,7 +83,7 @@ router.route('/foodItem')
             };
             req.body.image = req.file.filename;
         }
-        console.log('file req == ',req.body.image = req.file.filename);
+        console.log('file req == ', req.body.image = req.file.filename);
         var mappedFood = mapFood(newFoodItem, req.body);
         mappedFood.user = req.loggedInUser._id;
         mappedFood.save(function (err, saved) {
@@ -95,7 +94,69 @@ router.route('/foodItem')
             }
             return res.status(200).json(saved);
         })
+    });
+
+router.route('/foodItem/:id')
+    .get(function (req, res, next) {
+        var foodId = req.params.id;
+        FoodModel.findById({ _id: foodId })
+            .exec(function (err, food) {
+                if (err) {
+                    return res.status(500).json({
+                        error: err
+                    });
+                }
+                if (food) {
+                    return res.status(200).json(food);
+                } else {
+                    return res.status(404).json({
+                        message: 'Food item not found'
+                    })
+                }
+            });
     })
+    .put(upload.single('image'), function (req, res, next) {
+        var foodId = req.params.id;
+        console.log('Food id : ', foodId);
+        FoodModel.findById({ _id: foodId })
+            .then(food => {
+                if (food) {
+                    console.log('req food body', req.body);
+                    var updatedFoodItem = mapFood(food, req.body);
+                    updatedFoodItem.save(function (err, done) {
+                        if (err) {
+                            return res.status(500).json({
+                                error: err
+                            });
+                        }
+                        res.status(200).json(done);
+                    })
+                } else {
+                    return res.status(404).json({
+                        message: 'FoodItem not found.'
+                    })
+                }
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    error: err
+                });
+            })
+    })
+    .delete(function (req, res, next) {
+        var foodId = req.params.id;
+        FoodModel.findByIdAndRemove(foodId, function (err, done) {
+            if (err) {
+                return res.status(500).json({
+                    error: err
+                })
+            }
+            return res.status(200).json({
+                message: 'Food item deleted.',
+            });
+        })
+    })
+
 
 /**
  * GET all user
@@ -112,7 +173,6 @@ router.route('/')
                 return res.status(200).json(users);
             })
     });
-
 /**
  *  Get user by Id
  */
