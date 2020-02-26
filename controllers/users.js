@@ -14,7 +14,7 @@ var mapUser = require('../helpers/map_user_req');
 var mapFood = require('../helpers/map_foodItem_req');
 
 /**
- * routes for fooditems
+ * File upload Handling
  * */
 
 var storage = multer.diskStorage({
@@ -39,7 +39,9 @@ var upload = multer({
     fileFilter: fileFilter
 });
 
-
+/**
+ * Routes for fooditem
+ *  */ 
 router.route('/foodItem')
     .get(function (req, res, next) {
         var condition = {};
@@ -145,6 +147,7 @@ router.route('/foodItem/:id')
     })
     .delete(function (req, res, next) {
         var foodId = req.params.id;
+        // deletes only one fooditem
         FoodModel.findByIdAndRemove(foodId, function (err, done) {
             if (err) {
                 return res.status(500).json({
@@ -230,6 +233,7 @@ router.route('/:id')
     // delete user by id
     .delete(authorize, function (req, res, next) {
         var userId = req.params.id;
+        // find one user
         UserModel.findOne({ _id: userId })
             .exec(function (err, user) {
                 if (err) {
@@ -238,6 +242,7 @@ router.route('/:id')
                     });
                 }
                 if (user) {
+                    // delete selected user
                     user.remove(function (err, done) {
                         if (err)
                             return res.status(500).json({

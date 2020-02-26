@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var path = require('path');
+var cors = require('cors');
+var morgan = require('morgan');
 
 // load Middleware
 var authRoute = require('./controllers/auth');
@@ -15,7 +16,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-
+app.use(cors());
+app.use(morgan('dev'));
 // Set port
 app.set('port', process.env.PORT || 5000);
 
