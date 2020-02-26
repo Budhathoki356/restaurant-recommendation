@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passwordHash = require('password-hash');
 var authorize = require('../middlewares/authorize');
-var fs = require('fs');
+// var fs = require('fs');
 var multer = require('multer');
 
 // models
@@ -41,13 +41,11 @@ var upload = multer({
 
 /**
  * Routes for fooditem
- *  */ 
+ *  */
 router.route('/foodItem')
     .get(function (req, res, next) {
         var condition = {};
         condition.user = req.loggedInUser._id;
-        console.log('req.body is >>>>>', req.body);
-        console.log('id==', req.loggedInUser._id);
         FoodModel.find(condition)
             .sort({
                 _id: -1
@@ -161,9 +159,6 @@ router.route('/foodItem/:id')
     })
 
 
-/**
- * GET all user
- * */
 router.route('/')
     .get(function (req, res, next) {
         UserModel.find({})
@@ -175,7 +170,23 @@ router.route('/')
                 }
                 return res.status(200).json(users);
             })
+    })
+    .post(authorize,function (req, res, next) {
+        var newUser = new UserModel({});
+        var newMappedUser = mapUser(newUser, req.body);
+        if (req.body.password) {
+            newMappedUser.password = passwordHash.generate(req.body.password);
+        };
+        newMappedUser.save(function (err, user) {
+            if (err) {
+                return res.status(500).json({
+                    error: err
+                });
+            }
+            return res.status(200).json(user);
+        })
     });
+    
 /**
  *  Get user by Id
  */

@@ -9,6 +9,8 @@ module.exports = function map_item_request(item, foodDetails) {
         item.quantity = foodDetails.quantity;
     if (foodDetails.image)
         item.image = foodDetails.image;
+    if (foodDetails.description)
+        item.description = foodDetails.description;
 
     return item;
 }

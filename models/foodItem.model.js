@@ -21,7 +21,10 @@ var FoodItemSchema = new Schema({
     food_category: {
         type: String,
     },
-    image: String
+    image: String,
+    description: {
+        type: String
+    }
 });
 
 var FoodItemModel = mongoose.model('foodItem', FoodItemSchema);
