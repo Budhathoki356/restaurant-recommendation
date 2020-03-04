@@ -31,10 +31,13 @@ var UserSchema = new Schema({
     activeStatus: {
         type: Boolean,
         default: true
-    }
-}, {
-    timestamps: true
-});
+    },
+    passwordResetToken: String,
+    passwordResetTokenExpiry: Date,
+},
+    {
+        timestamps: true
+    });
 
 // Model is created
 var UserModel = mongoose.model('user', UserSchema);
