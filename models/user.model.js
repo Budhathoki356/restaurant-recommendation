@@ -31,9 +31,7 @@ var UserSchema = new Schema({
     activeStatus: {
         type: Boolean,
         default: true
-    },
-    passwordResetToken: String,
-    passwordResetTokenExpiry: Date,
+    }
 },
     {
         timestamps: true

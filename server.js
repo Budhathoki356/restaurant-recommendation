@@ -7,13 +7,15 @@ var morgan = require('morgan');
 // load Middleware
 var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
-var orderRoute = require('./controllers/order');
 var authenticate = require('./middlewares/authenticate');
 
 require('./config/mongoose.config');
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
+
 // body parser
 app.use(bodyParser.urlencoded({
     extended: true
@@ -29,7 +31,6 @@ app.use('/files', express.static(__dirname + '/files'));
 // middleware for authentication
 app.use('/auth', authRoute);
 app.use('/user', authenticate, userRoute);
-app.use('/order', authenticate, orderRoute);
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {

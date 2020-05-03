@@ -1,0 +1,72 @@
+<div class="row">
+
+    <div class="col-md-8 order-md-1 mx-auto my-4">
+
+        <!-- Custom Success/Error Message -->
+        <div class=" show-hide-message">
+            <div [ngClass]="messageClass">
+                {{ message }}
+            </div>
+        </div>
+
+        <h2 class="mb-3 font-weight-normal">Please Register</h2>
+
+        <form [formGroup]="form" class="needs-validation" novalidate (submit)="onRegisterSubmit()">
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Username</label>
+                    <input type="email" name="username" formControlName="username" class="form-control" id="inputEmail4"
+                        placeholder="username">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">
+                            Email is required.
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Password</label>
+                    <input type="password" name="password" formControlName="password" class="form-control"
+                        id="inputPassword4" placeholder="..... ">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">Email is
+                            required.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" name="email" formControlName="email" class="form-control" id="email"
+                    placeholder="you@example.com">
+                <ul class="help-block">
+                    <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">Email is required.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="address">Address</label>
+                <input type="text" name="location" formControlName="location" class="form-control" id="location"
+                    placeholder="1234 Main St" required>
+                <ul class="help-block">
+                    <li *ngIf="form.controls.location.errors?.required && form.controls.location.dirty">Email is
+                        required.</li>
+                </ul>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="address">Contact</label>
+                <input type="number" name="phoneNo" formControlName="phoneNo" class="form-control" id="phoneNo"
+                    placeholder="+977.." required>
+                <ul class="help-block">
+                    <li *ngIf="form.controls.phoneNo.errors?.required && form.controls.phoneNo.dirty">Email is required.
+                    </li>
+                </ul>
+            </div>
+
+            <hr class="mb-4">
+            <input [disabled]="!form.valid || submitting" class="btn btn-primary btn-lg btn-block" type="submit">
+        </form>
+    </div>
+</div>
