@@ -15,6 +15,8 @@ import { DashboardComponent } from './components/user/dashboard/dashboard.compon
 import { SerachComponent } from './components/user/dashboard/serach/serach.component';
 import { RecommendationComponent } from './components/user/dashboard/recommendation/recommendation.component';
 import { SuggestionComponent } from './components/user/dashboard/suggestion/suggestion.component';
+import { AuthGuard } from './guard/auth.guard';
+import { NotAuthGuard } from './guard/notAuth.guard';
 
 
 @NgModule({
@@ -37,7 +39,7 @@ import { SuggestionComponent } from './components/user/dashboard/suggestion/sugg
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
