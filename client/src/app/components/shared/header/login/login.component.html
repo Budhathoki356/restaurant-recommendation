@@ -7,8 +7,17 @@
                 </div>
               </div>
             <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
-            <input type="email" id="inputEmail" class="form-control p-4 mb-2 text-center" placeholder="Email address" name="email" formControlName="email" required>           
+            <input type="email" id="inputEmail" class="form-control p-4 mb-2 text-center" placeholder="Email address" name="email" formControlName="email" required> 
+            <ul class="help-block">
+                <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">Email is required.
+                </li>
+            </ul>          
             <input type="password" id="inputPassword" class="form-control p-4 mb-2 text-center" placeholder="Password" name="password" formControlName="password" required>
+            <ul class="help-block">
+                <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">Password is
+                    required.</li>
+            </ul>
+            <hr class="md-3">
             <input [disabled]="!form.valid || submitting" class="btn btn-lg btn-primary btn-block mt-3" type="submit">
         </form>
     </div>

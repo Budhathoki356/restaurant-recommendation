@@ -9,9 +9,8 @@ var mapUser = require('../helpers/map_user_req');
 // To GENETRATE TOKEN
 
 function generateToken(user) {
-    return jwt.sign({ _id: user._id, roless: user.roles }, config.jwtSecretKey, { expiresIn : '24h'});
+    return jwt.sign({ _id: user._id, role: user.role }, config.jwtSecretKey, { expiresIn : '24h'});
 }
-
 
 router
     .post('/register', function (req, res, next) {
@@ -79,7 +78,8 @@ router
                         return res.json({
                             success: true,
                             user: {
-                                username : user.username
+                                username : user.username,
+                                role : user.role
                             },
                             token: token,
                             message: 'Success!',
@@ -101,5 +101,6 @@ router
                 }
             })
     }); 
+
 
 module.exports = router;

@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   submitting: boolean = false;
   message;
   messageClass;
+  userOptions = ['restaurant', 'customer'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,6 +46,7 @@ export class RegisterComponent implements OnInit {
       ])],
       phoneNo: ['', Validators.required], // number
       location: ['', Validators.required],
+      role: ['', Validators.required],
     })
   }
 
@@ -67,7 +69,8 @@ export class RegisterComponent implements OnInit {
       password: this.form.get('password').value,
       phoneNo: this.form.get('phoneNo').value,
       location: this.form.get('location').value,
-      email: this.form.get('email').value
+      email: this.form.get('email').value,
+      role: this.form.get('role').value
     }
     this.authService.registerUser(user).subscribe((data: Object) => {
        if (!data['success']) {

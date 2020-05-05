@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../config/index');
 
 module.exports = function(req, res, next) {
-    if (req.loggedInUser.role === 'admin') {
+    if (req.decoded.role === 'restaurant') {
         return next();
     } else {
         return res.status(403).json({

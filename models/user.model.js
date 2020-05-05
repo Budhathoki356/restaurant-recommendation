@@ -25,8 +25,8 @@ var UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user', 'visitor'],
-        default: 'user'
+        enum: ['restaurant', 'customer'],
+        default: 'customer'
     },
     activeStatus: {
         type: Boolean,

@@ -20,43 +20,17 @@ module.exports = function (req, res, next) {
         token = req.query.token.split(" ")[1]
     }
 
-    if (token) {
-        jwt.verify(token, config.jwtSecretKey, function (err, verified) {
-            if (err) {
-                return next(err);
-            }
-            console.log('token verified with data');
-            // now check weather that user exists in system or not
-            MongoClient.connect(config.dbUrl, { useUnifiedTopology: true }, function (err, client) {
-                if (err) {
-                    return res.status(500).json({
-                        error: err
-                    });
-                }
-                var db = client.db(config.dbName);
-                db.collection('users')
-                    .find({ _id: new mongodb.ObjectID(verified._id) })
-                    .toArray(function (err, users) {
-                        if (err) {
-                            return res.status(500).json({
-                                error: err
-                            });
-                        }
-                        if (Array.isArray(users) && users.length) {
-                            req.loggedInUser = users[0];
-                            return next();
-                        } else {
-                            return res.status(404).json({
-                                message: 'User is removed from system.'
-                            });
-                        }
-                    })
-            })
-        });
-    } else {
+    if (!token) {
         return res.status(400).json({
-            message: 'Token not provided. Auth Invalid.'
+            success: false,
+            message: 'Token not provided.'
         })
+    } else {
+        jwt.verify(token, config.jwtSecretKey, function (err, verified) {
+            if (err) return res.json({success: false, message: 'Token invalid: ' + err});
+            req.decoded = verified;
+            next();      
+        });
     }
 }
 

@@ -8,6 +8,7 @@ var morgan = require('morgan');
 var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
 var authenticate = require('./middlewares/authenticate');
+var authorize = require('./middlewares/authorize');
 
 require('./config/mongoose.config');
 
@@ -30,7 +31,7 @@ app.use('/files', express.static(__dirname + '/files'));
 
 // middleware for authentication
 app.use('/auth', authRoute);
-app.use('/user', authenticate, userRoute);
+app.use('/user', authenticate, authorize ,userRoute);
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {
@@ -39,3 +40,10 @@ app.listen(app.get('port'), function (err, data) {
 
     console.log('Listening at port ' + app.get('port'));
 });
+/**
+ *  to close the port
+ * 
+ * -- netstat -ap | grep :5000
+ * -- kill -9 13205
+ *
+ * */ 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,12 @@ export class AuthService {
   domain: string;
   authToken;
   user;
+  role;
 
-  constructor( private http: HttpClient) { 
+  constructor( 
+    private http: HttpClient,
+    private router: Router
+    ) { 
     this.domain = "http://localhost:5000/auth"
   }
 
@@ -31,11 +36,22 @@ export class AuthService {
   }
   
   storeUserData(token, user) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user))
-    this.authToken = token;
-    this.user = user
+    this.authToken = localStorage.setItem('token', token)
+    this.user = localStorage.setItem('user', JSON.stringify(user))
   }
 
+  redirectToHome() {
+    let user = JSON.parse(localStorage.getItem('user'))
+    if(user.role == 'restaurant')  {
+      setTimeout(() => {
+        this.router.navigate(['/restaurant/resDashboard'])
+      }, 2000)
+    }
+    else {
+      setTimeout(() => {
+        this.router.navigate(['/user/dashboard'])
+      }, 2000)
+    }
+  }
 
 }

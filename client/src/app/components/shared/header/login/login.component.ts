@@ -47,9 +47,7 @@ export class LoginComponent implements OnInit {
         this.messageClass = 'alert alert-success'; 
         this.message = data['message']; 
         this.authService.storeUserData(data['token'], data['user'])
-        setTimeout(() => {
-          this.router.navigate(['/search']);
-        }, 2000);
+        this.authService.redirectToHome()
       }
     });
   }

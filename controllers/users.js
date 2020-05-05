@@ -38,9 +38,10 @@ var upload = multer({
  * Routes for User Profile
  */
 
-router.route('/profile/:id')
+router.route('/profile')
     .get(function (req, res, next) {
-        var userid = req.params.id;
+        console.log(req.decoded);
+        var userid = req.decoded._id;
         UserModel.findById({ _id: userid }).exec(function (err, user) {
             if (err) return res.status(500).json({
                 error: err
@@ -55,7 +56,7 @@ router.route('/profile/:id')
         })
     })
     .put(function (req, res, next) {
-        var userId = req.params.id;
+        var userId = req.decoded._id;
         UserModel.findById({ _id: userId })
             .exec()
             .then(user => {
@@ -86,7 +87,7 @@ router.route('/profile/:id')
             })
     })
     .delete(function (req, res, next) {
-        var userId = req.params.id;
+        var userId = req.decoded._id;
         UserModel.findOne({ _id: userId })
             .exec(function (err, user) {
                 if (err) {

@@ -10,7 +10,12 @@ import { LoginComponent } from './components/shared/header/login/login.component
 import { RegisterComponent } from './components/shared/header/register/register.component';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchComponent } from './components/search/search.component';
+import { ResDashboardComponent } from './components/restaurant/res-dashboard/res-dashboard.component';
+import { DashboardComponent } from './components/user/dashboard/dashboard.component';
+import { SerachComponent } from './components/user/dashboard/serach/serach.component';
+import { RecommendationComponent } from './components/user/dashboard/recommendation/recommendation.component';
+import { SuggestionComponent } from './components/user/dashboard/suggestion/suggestion.component';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +24,11 @@ import { SearchComponent } from './components/search/search.component';
     FooterComponent,
     LoginComponent,
     RegisterComponent,
-    SearchComponent
+    ResDashboardComponent,
+    DashboardComponent,
+    SerachComponent,
+    SuggestionComponent,
+    RecommendationComponent
   ],
   imports: [
     BrowserModule,
