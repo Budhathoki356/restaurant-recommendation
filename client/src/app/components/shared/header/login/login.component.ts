@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthGuard } from "src/app/guard/auth.guard";
 
 
 @Component({
@@ -15,11 +16,13 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   message;
   messageClass;
+  previousUrl;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private authGuard: AuthGuard
   ) {
     this.createForm();
   }
@@ -44,15 +47,25 @@ export class LoginComponent implements OnInit {
         this.message = data['message']; // Set an error message
         this.submitting = false; // Re-enable submit button
       } else {
-        this.messageClass = 'alert alert-success'; 
-        this.message = data['message']; 
+        this.messageClass = 'alert alert-success'
+        this.message = data['message']
         this.authService.storeUserData(data['token'], data['user'])
-        this.authService.redirectToHome()
+        if (this.previousUrl) {
+          this.router.navigate([this.previousUrl])
+        } else {
+          this.authService.redirectToHome()
+        }
       }
     });
   }
 
   ngOnInit(): void {
+    if (this.authGuard.redirectUrl) {
+      this.messageClass = 'alert alert-danger'
+      this.message = "You must be logged in to view that page."
+      this.previousUrl = this.authGuard.redirectUrl
+      this.authGuard.redirectUrl = undefined
+    }
   }
 
 }
