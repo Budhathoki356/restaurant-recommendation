@@ -31,7 +31,7 @@ app.use('/files', express.static(__dirname + '/files'));
 
 // middleware for authentication
 app.use('/auth', authRoute);
-app.use('/user', authenticate, authorize ,userRoute);
+app.use('/user', authenticate,userRoute);
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {

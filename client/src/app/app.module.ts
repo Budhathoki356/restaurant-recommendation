@@ -17,6 +17,8 @@ import { RecommendationComponent } from './components/user/dashboard/recommendat
 import { SuggestionComponent } from './components/user/dashboard/suggestion/suggestion.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
+import { ProfileComponent } from './components/shared/profile/profile.component';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { NotAuthGuard } from './guard/notAuth.guard';
     DashboardComponent,
     SerachComponent,
     SuggestionComponent,
-    RecommendationComponent
+    RecommendationComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,7 @@ import { NotAuthGuard } from './guard/notAuth.guard';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [AuthService, AuthGuard, NotAuthGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

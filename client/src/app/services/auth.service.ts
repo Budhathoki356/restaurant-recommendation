@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthGuard } from '../guard/auth.guard';
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +13,11 @@ export class AuthService {
   user;
   role;
 
-  constructor( 
+  constructor(
     private http: HttpClient,
     private router: Router
-    ) { 
-    this.domain = "http://localhost:5000"
+  ) {
+    this.domain = environment.apiUrl
   }
 
   registerUser(user: object) {
@@ -27,7 +27,7 @@ export class AuthService {
       })
     });
   }
-  
+
   loginUser(user: object) {
     return this.http.post(this.domain + '/auth/login', user, {
       headers: new HttpHeaders({
@@ -42,15 +42,20 @@ export class AuthService {
     this.user = null
     localStorage.clear()
   }
-  
+
   storeUserData(token, user) {
     this.authToken = localStorage.setItem('token', token)
-    this.user = localStorage.setItem('user', JSON.stringify(user))
+    this.user = localStorage.setItem('user', JSON.stringify(user)) // stringfy
+  }
+  getUserData() {
+    return {
+      user: JSON.parse(localStorage.getItem('user')) // do this
+    }
   }
 
   redirectToHome() {
     let user = JSON.parse(localStorage.getItem('user'))
-    if(user.role == 'restaurant')  {
+    if (user.role == 'restaurant') {
       setTimeout(() => {
         this.router.navigate(['/restaurant/resDashboard'])
       }, 1500)
@@ -62,8 +67,8 @@ export class AuthService {
     }
   }
 
-  loggedIn(){
+  loggedIn() {
     return !!localStorage.getItem('token') // give true value if token exists otherwise false
   }
- 
+
 }

@@ -8,18 +8,33 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  public userInfo:Object = {};
+  public activeDashboard:boolean = false;
 
   constructor(
     public authService: AuthService,
-    private router: Router  
-  ) { 
-    
-   }
+    private router: Router
+  ) { }
 
 
   onLogoutClick() {
     this.authService.logout()
     this.router.navigate(['/login'])
+  }
+
+  onProfile() {
+    this.activeDashboard = false
+    this.router.navigate(['/profile'])
+  }
+
+  onDashboard() {
+    this.activeDashboard = true
+    this.userInfo = this.authService.getUserData();
+    if(this.userInfo['user']['role'] == 'customer') {
+      this.router.navigate(['/user/dashboard'])
+    } else {
+      this.router.navigate(['/restaurant/resDashboard'])
+    }
   }
 
   ngOnInit(): void {

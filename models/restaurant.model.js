@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var FoodItemSchema = new Schema({
-    food_name: {
+var RestaurantSchema = new Schema({
+    restaurantName: {
         type: String,
         require: true
     },
-    quantity: {
+    location: {
         type: Number,
         default: 0
     },
@@ -14,16 +14,9 @@ var FoodItemSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    restaurantName: {
-        type:Schema.Types.ObjectId,
-        ref: 'restaurant'
-    },
-    unit_price: {
+    phoneNo: {
         type: Number,
         require: true
-    },
-    food_category: {
-        type: String,
     },
     image: {
         type: String
@@ -33,6 +26,6 @@ var FoodItemSchema = new Schema({
     }
 });
 
-var FoodItemModel = mongoose.model('foodItem', FoodItemSchema);
+var RestaurantModel = mongoose.model('restaurant', RestaurantSchema);
 
-module.exports = FoodItemModel;
+module.exports = RestaurantModel;

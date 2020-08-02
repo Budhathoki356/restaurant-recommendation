@@ -6,6 +6,7 @@ import { ResDashboardComponent } from './components/restaurant/res-dashboard/res
 import { DashboardComponent } from './components/user/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
+import { ProfileComponent } from './components/shared/profile/profile.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,11 @@ const routes: Routes = [
     component: DashboardComponent ,
     canActivate: [AuthGuard] 
   },
+  { 
+    path: 'profile', 
+    component: ProfileComponent ,
+    canActivate: [AuthGuard] 
+  }
 ];
 
 @NgModule({
