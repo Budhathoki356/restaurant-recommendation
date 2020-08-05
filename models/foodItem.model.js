@@ -8,7 +8,8 @@ var FoodItemSchema = new Schema({
     },
     quantity: {
         type: Number,
-        default: 0
+        default: 0,
+        require: true
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -24,6 +25,7 @@ var FoodItemSchema = new Schema({
     },
     food_category: {
         type: String,
+        require: true
     },
     image: {
         type: String

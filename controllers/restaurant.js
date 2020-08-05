@@ -1,115 +1,144 @@
-var multer = require('multer');
 
+const fs = require('fs')
 // models
-var UserModel = require('../models/user.model')
-var RestaurantModel =require('../models/restaurant.model')
+const RestaurantModel = require('../models/restaurant.model')
 
 // helpers
-var mapUser = require('../helpers/map_user_req');
+const mapRestaurant = require('../helpers/map_restaurant_req');
+const map_restaurant_req = require('../helpers/map_restaurant_req');
 
-/**
- * File upload Handling
- * */
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './files/images')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-});
-
-function fileFilter(req, file, cb) {
-    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
-        cb(null, true);
-    } else {
-        req.fileUplaodFailed = true;
-        cb(null, false);
-    }
-}
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter
-});
 
 
 const createRestaurant = (req, res, next) => {
-    var userid = req.decoded._id;
-    UserModel.findById({ _id: userid }).exec(function (err, user) {
-        if (err) return res.status(500).json({
-            error: err
-        });
-        if (user) {
-            return res.status(200).json(user);
-        } else {
-            return res.status(404).json({
-                message: 'User not found.'
+    if (req.file) {
+        var mimeType = req.file.mimetype;
+        var image = mimeType.split("/")[0];
+
+        if (image != 'image') {
+            fs.unlink('./images/' + req.file.filename);
+            return next({
+                message: 'invalid file format',
+                status: 400
             })
         }
+
+        req.body.image = req.file.filename
+    }
+    const newRestaurant = new RestaurantModel({})
+    const mappedRestaurant = mapRestaurant(newRestaurant, req.body)
+    mappedRestaurant.user = req.decoded._id
+    mappedRestaurant.save((err, done) => {
+        if (err) {
+            return next(err)
+        }
+        res.status(200).json(done)
     })
 }
 
-const getRestaurant = (req, res, next) => {
-    var userId = req.decoded._id;
-    UserModel.findById({ _id: userId })
-        .exec()
-        .then(user => {
-            if (user) {
-                var updatedUser = mapUser(user, req.body);
-                if (req.body.password) {
-                    updatedUser.password = passwordHash.generate(req.body.password);
-                }
-                updatedUser.save(function (err, done) {
-                    if (err) {
-                        return res.status(500).json({
-                            error: err
-                        });
-                    }
-                    res.status(200).json(done);
-                });
-            } else {
-                return res.status(404).json({
-                    message: 'User not found.'
-                });
+const findOne = (req, res, next) => {
+    RestaurantModel.findById(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return next({
+                    message: 'Restaurant not found',
+                    status: 400
+                })
             }
+            res.status(200).json(restaurant)
+
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            })
+            return next(err)
         })
 }
 
-const deleteOneRestaurant = (req, res, next) => {
-    var userId = req.decoded._id;
-    UserModel.findOne({ _id: userId })
-        .exec(function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    error: err
-                });
-            }
-            if (user) {
-                // delete selected user
-                user.remove(function (err, done) {
-                    if (err)
-                        return res.status(500).json({
-                            error: err
-                        });
-                    return res.status(200).json(done);
-                })
-            } else {
-                return res.status(404).json({
-                    message: 'User not found',
+const findAll = (req, res, next) => {
+    RestaurantModel.find({})
+        .then(restaurant => {
+            if (!restaurant) {
+                return next({
+                    message: 'No restaurants found.'
                 })
             }
-        });
+            res.status(200).json(restaurant)
+        })
+        .catch(err => {
+            return next(err)
+        })
+}
+
+const updateRestaurant = (req, res, next) => {
+    var id = req.params.id;
+
+    if (req.file) {
+        var mimeType = req.file.mimetype;
+        var image = mimeType.split("/")[0];
+
+        if (image != 'image') {
+            fs.unlink('./files/images/' + req.file.filename);
+            return next({
+                message: 'invalid file format',
+                status: 400
+            })
+        }
+
+        req.body.image = req.file.filename
+    }
+
+    RestaurantModel.findById(id, (err, item) => {
+        if (err) { return next(err) }
+        
+        var oldImage = item.image;
+        console.log(oldImage)
+        var updatedMapItem = map_restaurant_req(item, req.body);
+        updatedMapItem.save((err, updated) => {
+            if (err) { return next(err) }
+            if (req.file) {
+                fs.unlinkSync('./files/images/' + oldImage)
+            }
+            res.status(200).json({
+                restaurant: updated,
+                message: 'Restaurant is updated successfully.'
+            })
+
+        })
+    })
+
+
+}
+
+const deleteRestaurant = (req, res, next) => {
+    RestaurantModel.findById(req.params.id)
+    .then(res => {
+        if(!res) {return next({
+            message: 'Not found'
+        })}
+        fs.unlinkSync('./files/images/' + res.image)
+    })
+
+    RestaurantModel.findByIdAndRemove(req.params.id)
+        .then(restaurant => {
+            if (!restaurant) {
+                return next({
+                    message: 'Restaurant not found',
+                    status: 400
+                })
+            }
+            res.status(200).json({
+                restaurant: restaurant,
+                message: 'Restaurant deleted successfully.'
+            })
+
+        })
+        .catch(err => {
+            return next(err)
+        })
 }
 
 module.exports = {
     createRestaurant,
-    getRestaurant,
-    deleteOneRestaurant
+    findOne,
+    findAll,
+    updateRestaurant,
+    deleteRestaurant
 };

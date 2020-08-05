@@ -7,6 +7,7 @@ var morgan = require('morgan');
 // load Middleware
 var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
+var restaurantRoute = require('./routes/restaurant')
 var authenticate = require('./middlewares/authenticate');
 var authorize = require('./middlewares/authorize');
 
@@ -31,7 +32,8 @@ app.use('/files', express.static(__dirname + '/files'));
 
 // middleware for authentication
 app.use('/auth', authRoute);
-app.use('/user', authenticate,userRoute);
+app.use('/user', authenticate, userRoute);
+app.use('/restaurant', authenticate, authorize, restaurantRoute);
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {
@@ -42,8 +44,8 @@ app.listen(app.get('port'), function (err, data) {
 });
 /**
  *  to close the port
- * 
+ *
  * -- netstat -ap | grep :5000
  * -- kill -9 13205
  *
- * */ 
+ * */

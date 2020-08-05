@@ -7,12 +7,13 @@ var RestaurantSchema = new Schema({
         require: true
     },
     location: {
-        type: Number,
+        type: String,
         default: 0
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'user',
+        require: true
     },
     phoneNo: {
         type: Number,

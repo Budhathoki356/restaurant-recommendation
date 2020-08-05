@@ -20,5 +20,16 @@ router.route('/profile')
             }
         })
     })
+    // .get((req, res, next) => {
+    //     UserModel.find({})
+    //         .then(users => {
+    //             res.status(200).json({
+    //                 users: users
+    //             })
+    //         })
+    //         .catch(err => {
+    //             return next(err)
+    //         })
+    // })
 
 module.exports = router;
