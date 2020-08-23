@@ -8,6 +8,8 @@ var morgan = require('morgan');
 var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
 var restaurantRoute = require('./routes/restaurant')
+var foodItemRoute = require('./routes/footitem')
+
 var authenticate = require('./middlewares/authenticate');
 var authorize = require('./middlewares/authorize');
 
@@ -34,6 +36,7 @@ app.use('/files', express.static(__dirname + '/files'));
 app.use('/auth', authRoute);
 app.use('/user', authenticate, userRoute);
 app.use('/restaurant', authenticate, authorize, restaurantRoute);
+app.use('/food-item', authenticate, authorize, foodItemRoute)
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {

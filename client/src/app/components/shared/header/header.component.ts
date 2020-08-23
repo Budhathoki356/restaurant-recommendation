@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   public userInfo:Object = {};
-  public activeDashboard:boolean = false;
+  public activeDashboard:boolean;
 
   constructor(
     public authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+    this.activeDashboard = false
+   }
 
 
   onLogoutClick() {
@@ -23,12 +25,12 @@ export class HeaderComponent implements OnInit {
   }
 
   onProfile() {
-    this.activeDashboard = false
+    this.activeDashboard = true
     this.router.navigate(['/profile'])
   }
 
   onDashboard() {
-    this.activeDashboard = true
+    this.activeDashboard = false
     this.userInfo = this.authService.getUserData();
     if(this.userInfo['user']['role'] == 'customer') {
       this.router.navigate(['/user/dashboard'])
@@ -38,6 +40,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
   }
 
 }

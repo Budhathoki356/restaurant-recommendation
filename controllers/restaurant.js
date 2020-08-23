@@ -89,7 +89,6 @@ const updateRestaurant = (req, res, next) => {
         if (err) { return next(err) }
         
         var oldImage = item.image;
-        console.log(oldImage)
         var updatedMapItem = map_restaurant_req(item, req.body);
         updatedMapItem.save((err, updated) => {
             if (err) { return next(err) }

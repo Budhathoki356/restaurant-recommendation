@@ -1,20 +1,18 @@
 module.exports = function map_foodItem_req(foodItem, foodItemDetails) {
-    if (foodItemDetails.restaurantname)
-        foodItem.food_name = foodItemDetails.foodItemname;
+    if (foodItemDetails.foodName)
+        foodItem.foodName = foodItemDetails.foodName;
     if (foodItemDetails.quantity)
         foodItem.quantity = foodItemDetails.quantity;
-    if (foodItemDetails.restaurantName)
-        foodItem.restaurantName = foodItemDetails.restaurantName;
+    if (foodItemDetails.restaurant_id)
+        foodItem.restaurant_id = foodItemDetails.restaurant_id;
     if (foodItemDetails.unitPrice)
-        foodItem.unit_price = foodItemDetails.unitPrice;
+        foodItem.unitPrice = foodItemDetails.unitPrice;
     if (foodItemDetails.foodCategory)
-        foodItem.food_category = foodItemDetails.foodCategory;
+        foodItem.foodCategory = foodItemDetails.foodCategory;
     if (foodItemDetails.image)
         foodItem.image = foodItemDetails.image;
     if (foodItemDetails.description)
         foodItem.description = foodItemDetails.description;
-    if (foodItemDetails.user)
-        foodItem.user = foodItemDetails.user;
 
     return foodItem;
 }

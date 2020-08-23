@@ -29,12 +29,11 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-router.post('/', upload.single('img'), foodController)
+router.post('/', upload.single('img'), foodController.create)
 
-router.get('/:id', foodController)
+router.get('/', foodController.findAll)
 
-router.put('/:id', upload.single('img'), foodController)
+router.put('/:id', upload.single('img'), foodController.updateFoodItem)
 
-router.delete('/:id', foodController)
-
+router.delete('/:id', foodController.deleteFood)
 module.exports = router

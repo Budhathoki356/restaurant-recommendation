@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var FoodItemSchema = new Schema({
-    food_name: {
+    foodName: {
         type: String,
         require: true
     },
@@ -11,19 +11,15 @@ var FoodItemSchema = new Schema({
         default: 0,
         require: true
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-    },
-    restaurantName: {
+    restaurant_id: {
         type:Schema.Types.ObjectId,
         ref: 'restaurant'
     },
-    unit_price: {
+    unitPrice: {
         type: Number,
         require: true
     },
-    food_category: {
+    foodCategory: {
         type: String,
         require: true
     },
