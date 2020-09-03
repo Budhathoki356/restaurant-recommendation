@@ -51,11 +51,41 @@ export class RestaurantService {
       }
     })
 
-    xhr.open('post', `${this.domain}/restaurant?token=Bearer ${localStorage.getItem('token')}`, true);
+    let URL;
+    let method;
 
+    if (data._id) {
+      URL = `${this.domain}/restaurant/${data._id}?token=Bearer ${localStorage.getItem('token')}`
+      method = "PUT";
+    } else {
+      URL = `${this.domain}/restaurant?token=Bearer ${localStorage.getItem('token')}`
+      method = "POST";
+    }
+    
+    // xhr.open('post', `${this.domain}/restaurant?token=Bearer ${localStorage.getItem('token')}`, true);
+    
+    xhr.open(method, URL, true);
     xhr.send(formData);
 
     return upload;
+  }
+
+  getById(id: string) {
+    return this.http.get(this.domain + '/restaurant/' + id, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
+  }
+
+  remove(id) {
+    return this.http.delete(this.domain + '/restaurant/' + id, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
   }
 
 }

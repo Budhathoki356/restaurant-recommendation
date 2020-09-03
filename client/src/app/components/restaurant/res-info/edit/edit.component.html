@@ -1,1 +1,49 @@
-<p>edit works!</p>
+<div>
+    <h1 class="h3 text-dark pt-3">Edit Restaurant</h1>
+    <hr>
+
+    <div class="container show-hide-message">
+        <div [ngClass]="messageClass">
+            {{message}}
+        </div>
+    </div>
+
+    <form [formGroup]="editRestaurantForm" novalidate class="container"  (submit)="onSubmit()" >
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Restaurant Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="staticEmail" name="restaurantName" formControlName="restaurantName" placeholder="Abc...">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Location</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="location" name="location" formControlName="location" placeholder="Kathmandu">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Contact</label>
+            <div class="col-sm-10">
+                <input type="tel" class="form-control" id="contact" name="contact" formControlName="phoneNo" placeholder="98...">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Image</label>
+            <div class="col-sm-6">
+                <img width="220px" src="{{imageUrl}}/{{image}}" alt="">
+                <input type="file" (change)="fileChange($event)" class="form-control-file border" name="image">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="description" formControlName="description"></textarea>
+            </div>
+        </div>
+
+        <hr class="mt-4">
+
+        <input class="btn btn-success mx-auto d-block btn-lg btn-block col-sm-4" type="submit" value="Submit">
+
+    </form>
+</div>

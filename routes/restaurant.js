@@ -33,7 +33,7 @@ router.post('/', upload.single('img'), restaurantController.createRestaurant)
 
 router.get('/', restaurantController.findAll)
 
-// router.get('/:id', restaurantController.findOne)
+router.get('/:id', restaurantController.findOne)
 
 router.put('/:id', upload.single('img'), restaurantController.updateRestaurant)
 

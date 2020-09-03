@@ -21,7 +21,6 @@ import { ProfileComponent } from './components/shared/profile/profile.component'
 import { UserService } from './services/user.service';
 import { CuisineComponent } from './components/restaurant/cuisine/cuisine.component';
 import { ResInfoComponent } from './components/restaurant/res-info/res-info.component';
-import { CreateComponent } from './components/restaurant/res-info/create/create.component';
 import { EditComponent } from './components/restaurant/res-info/edit/edit.component';
 
 
@@ -40,7 +39,6 @@ import { EditComponent } from './components/restaurant/res-info/edit/edit.compon
     ProfileComponent,
     CuisineComponent,
     ResInfoComponent,
-    CreateComponent,
     EditComponent,
   ],
   imports: [

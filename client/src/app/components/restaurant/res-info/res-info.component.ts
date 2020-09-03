@@ -72,6 +72,18 @@ export class ResInfoComponent implements OnInit {
     )
   }
 
+  deleteRestaurant(id,i){
+    let confrimRemove = confirm('Are you sure to Remove?');
+    if (!confrimRemove) {
+      return;
+    }
+    this.restaurantService.remove(id).subscribe( result => {
+      this.messageClass = 'alert alert-successs'
+      this.message= 'Restaurant Deleted.'
+      this.restaurantDetail.slice(i,1)
+    })
+  }
+
 
   ngOnInit(): void {
   }

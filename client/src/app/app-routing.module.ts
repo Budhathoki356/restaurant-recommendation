@@ -9,6 +9,7 @@ import { NotAuthGuard } from './guard/notAuth.guard';
 import { ProfileComponent } from './components/shared/profile/profile.component';
 import { ResInfoComponent } from './components/restaurant/res-info/res-info.component';
 import { CuisineComponent } from './components/restaurant/cuisine/cuisine.component';
+import { EditComponent } from './components/restaurant/res-info/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -31,9 +32,10 @@ const routes: Routes = [
     component: ResDashboardComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo:'res-info', pathMatch: 'full'},
+      { path: '', redirectTo: 'res-info', pathMatch: 'full' },
       { path: 'res-info', component: ResInfoComponent, canActivateChild: [AuthGuard] },
-      { path: 'cuisine', component: CuisineComponent, canActivateChild: [AuthGuard]  }
+      { path: 'cuisine', component: CuisineComponent, canActivateChild: [AuthGuard] },
+      { path: 'res-info/edit/:id', component: EditComponent, canActivateChild: [AuthGuard] },
     ]
   },
   {
