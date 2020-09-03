@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 });
 
 function fileFilter(req, file, cb) {
-    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
+    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
         cb(null, true);
     } else {
         req.fileUplaodFailed = true;
@@ -31,9 +31,9 @@ const upload = multer({
 
 router.post('/', upload.single('img'), restaurantController.createRestaurant)
 
-// router.get('/', restaurantController.findAll)
+router.get('/', restaurantController.findAll)
 
-router.get('/:id', restaurantController.findOne)
+// router.get('/:id', restaurantController.findOne)
 
 router.put('/:id', upload.single('img'), restaurantController.updateRestaurant)
 

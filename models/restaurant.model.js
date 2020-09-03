@@ -16,14 +16,19 @@ var RestaurantSchema = new Schema({
         require: true
     },
     phoneNo: {
-        type: Number,
+        type: String,
         require: true
     },
     image: {
         type: String
     },
     description: {
-        type: String
+        type: String,
+        require: true
+    },
+    isActive: {
+        type: Boolean,
+        default: false
     }
 });
 

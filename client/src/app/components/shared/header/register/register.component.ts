@@ -42,7 +42,6 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(30),
         this.validatePass
-
       ])],
       phoneNo: ['', Validators.required], // number
       location: ['', Validators.required],

@@ -1,10 +1,10 @@
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm bg-white">
+<div class="d-flex flex-column flex-md-row align-items-center fixed-top p-3 px-md-4 mb-3 border-bottom shadow-sm bg-white">
     <a routerLink="" class="my-0 mr-md-auto font-weight-normal logo ">Recommendation System</a>
     <nav class="my-2 my-md-0 mr-md-3">
             <a *ngIf="!authService.loggedIn()" routerLink="/login" routerLinkActive="active" class="btn btn-outline-primary px-4 mx-1" >Login</a>
             <a *ngIf="!authService.loggedIn()" routerLink="/register" routerLinkActive="active" class="btn btn-outline-primary px-4 mx-1" >Register</a>
-            <button *ngIf="authService.loggedIn() && !activeDashboard" type="button" class="btn btn-primary" (click)="onProfile()">Profile</button>
-            <button *ngIf="authService.loggedIn() && activeDashboard" type="button" class="btn btn-primary" (click)="onDashboard()">Dashboard</button>
+            <button *ngIf="authService.loggedIn() && !activeDashboard" type="button" class="btn btn-outline-primary text-dark" (click)="onProfile()">Profile</button>
+            <button *ngIf="authService.loggedIn() && activeDashboard" type="button" class="btn btn-outline-primary text-dark" (click)="onDashboard()">Dashboard</button>
             <a *ngIf="authService.loggedIn()" (click)="onLogoutClick()" class="btn btn-outline-primary px-4 mx-1">Logout</a>
     </nav>
 </div>

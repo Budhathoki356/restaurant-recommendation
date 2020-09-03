@@ -7,38 +7,44 @@ import { DashboardComponent } from './components/user/dashboard/dashboard.compon
 import { AuthGuard } from './guard/auth.guard';
 import { NotAuthGuard } from './guard/notAuth.guard';
 import { ProfileComponent } from './components/shared/profile/profile.component';
-
+import { ResInfoComponent } from './components/restaurant/res-info/res-info.component';
+import { CuisineComponent } from './components/restaurant/cuisine/cuisine.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: '',
     redirectTo: '/login',
     pathMatch: 'full'
   },
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     component: LoginComponent,
-    canActivate: [NotAuthGuard] 
+    canActivate: [NotAuthGuard]
   },
-  { 
-    path: 'register', 
+  {
+    path: 'register',
     component: RegisterComponent,
-    canActivate: [NotAuthGuard]  
+    canActivate: [NotAuthGuard]
   },
-  { 
-    path: 'restaurant/resDashboard', 
+  {
+    path: 'restaurant/resDashboard',
     component: ResDashboardComponent,
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo:'res-info', pathMatch: 'full'},
+      { path: 'res-info', component: ResInfoComponent, canActivateChild: [AuthGuard] },
+      { path: 'cuisine', component: CuisineComponent, canActivateChild: [AuthGuard]  }
+    ]
   },
-  { 
-    path: 'user/dashboard', 
-    component: DashboardComponent ,
-    canActivate: [AuthGuard] 
+  {
+    path: 'user/dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'profile', 
-    component: ProfileComponent ,
-    canActivate: [AuthGuard] 
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

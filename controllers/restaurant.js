@@ -18,7 +18,8 @@ const createRestaurant = (req, res, next) => {
             fs.unlink('./images/' + req.file.filename);
             return next({
                 message: 'invalid file format',
-                status: 400
+                status: 400,
+                success: false
             })
         }
 
@@ -27,11 +28,12 @@ const createRestaurant = (req, res, next) => {
     const newRestaurant = new RestaurantModel({})
     const mappedRestaurant = mapRestaurant(newRestaurant, req.body)
     mappedRestaurant.user = req.decoded._id
+    mappedRestaurant.isActive = true
     mappedRestaurant.save((err, done) => {
         if (err) {
             return next(err)
         }
-        res.status(200).json(done)
+        res.status(200).json({success: true, message: 'Restaurant registered.'})
     })
 }
 
