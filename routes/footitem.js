@@ -33,6 +33,8 @@ router.post('/', upload.single('img'), foodController.create)
 
 router.get('/', foodController.findAll)
 
+router.get('/:id', foodController.findOne)
+
 router.put('/:id', upload.single('img'), foodController.updateFoodItem)
 
 router.delete('/:id', foodController.deleteFood)

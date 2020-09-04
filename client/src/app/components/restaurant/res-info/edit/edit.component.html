@@ -30,7 +30,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Image</label>
             <div class="col-sm-6">
-                <img width="220px" src="{{imageUrl}}/{{image}}" alt="">
+                <img class="img-thumbnail w-25" src="{{imageUrl}}/{{image}}" alt="{{image}}">
                 <input type="file" (change)="fileChange($event)" class="form-control-file border" name="image">
             </div>
         </div>
@@ -43,7 +43,7 @@
 
         <hr class="mt-4">
 
-        <input class="btn btn-success mx-auto d-block btn-lg btn-block col-sm-4" type="submit" value="Submit">
+        <input [disabled] ="!editRestaurantForm.dirty " class="btn btn-success mx-auto d-block btn-lg btn-block col-sm-4" type="submit" value="Submit">
 
     </form>
 </div>

@@ -4,7 +4,6 @@ const RestaurantModel = require('../models/restaurant.model')
 const FoodItemModel = require('../models/foodItem.model')
 
 // helpers
-const mapRestaurant = require('../helpers/map_restaurant_req');
 const mapFoodItem = require('../helpers/map_fooditem_req')
 
 
@@ -49,6 +48,21 @@ const create = (req, res, next) => {
 
 const findAll = (req, res, next) => {
     FoodItemModel.find({})
+    .then(food => {
+        if (!food) {
+            return next({
+                message: 'No food found.'
+            })
+        }
+        res.status(200).json(food)
+    })
+    .catch(err => {
+        return next(err)
+    })
+}
+
+const findOne = (req, res, next) => {
+    FoodItemModel.findById(req.params.id)
     .then(food => {
         if (!food) {
             return next({
@@ -119,5 +133,6 @@ module.exports = {
     create,
     updateFoodItem,
     findAll,
-    deleteFood
+    deleteFood,
+    findOne
 }

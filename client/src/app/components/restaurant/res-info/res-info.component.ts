@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RestaurantService } from 'src/app/services/restaurant.service';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-res-info',
@@ -21,7 +22,8 @@ export class ResInfoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private router: Router
   ) {
     this.createForm();
     this.displayRestaurant();
@@ -81,6 +83,7 @@ export class ResInfoComponent implements OnInit {
       this.messageClass = 'alert alert-successs'
       this.message= 'Restaurant Deleted.'
       this.restaurantDetail.slice(i,1)
+      this.router.navigate([''])
     })
   }
 

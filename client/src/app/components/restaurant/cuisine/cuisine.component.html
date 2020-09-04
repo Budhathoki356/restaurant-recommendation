@@ -1,1 +1,31 @@
-<p>cuisine works!</p>
+<div class="d-flex flex-row justify-content-between align-items-center">
+    <h1 class="h3 text-dark pt-3">Cuisine</h1>
+    <a routerLink="add" class="m-2 btn btn-success text-light">Add</a>
+</div>
+<hr>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col" style="width: 20px;">Quantity</th>
+            <th scope="col" style="width: 100px;">Unit Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col" style="width: 130px;">Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cuisine of cuisineList, let i= index">
+            <td>{{cuisine.foodName}}</td>
+            <td>{{cuisine.quantity}}</td>
+            <td>{{cuisine.unitPrice}}</td>
+            <td>{{cuisine.description}}</td>
+            <td><img style="width: 250px;" src="{{imageUrl}}/{{cuisine.image}}" alt=""></td>
+            <td>
+                <a class="btn btn-warning btn-sm text-light" routerLink="edit/{{cuisine._id}}">Edit</a>
+                <a class="ml-1 btn btn-danger btn-sm text-light" (click)="deleteCuisine(cuisine._id,i)" >Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

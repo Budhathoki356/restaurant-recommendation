@@ -22,6 +22,8 @@ import { UserService } from './services/user.service';
 import { CuisineComponent } from './components/restaurant/cuisine/cuisine.component';
 import { ResInfoComponent } from './components/restaurant/res-info/res-info.component';
 import { EditComponent } from './components/restaurant/res-info/edit/edit.component';
+import { CreateCuisineComponent } from './components/restaurant/cuisine/create-cuisine/create-cuisine.component';
+import { EditCuisineComponent } from './components/restaurant/cuisine/edit-cuisine/edit-cuisine.component';
 
 
 @NgModule({
@@ -40,6 +42,8 @@ import { EditComponent } from './components/restaurant/res-info/edit/edit.compon
     CuisineComponent,
     ResInfoComponent,
     EditComponent,
+    CreateCuisineComponent,
+    EditCuisineComponent,
   ],
   imports: [
     BrowserModule,

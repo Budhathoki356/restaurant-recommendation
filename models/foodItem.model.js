@@ -19,10 +19,6 @@ var FoodItemSchema = new Schema({
         type: Number,
         require: true
     },
-    foodCategory: {
-        type: String,
-        require: true
-    },
     image: {
         type: String
     },

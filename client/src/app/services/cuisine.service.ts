@@ -6,19 +6,18 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class RestaurantService {
+export class CuisineService {
 
   domain: string;
-  restaurant;
 
   constructor(
     private http: HttpClient,
   ) {
-    this.domain = environment.apiUrl
+    this.domain = environment.apiUrl;
   }
 
-  getRestaurant() {
-    return this.http.get(this.domain + '/restaurant', {
+  getAll() {
+    return this.http.get(this.domain + '/food-item/', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -26,7 +25,25 @@ export class RestaurantService {
     })
   }
 
-  createRestaurant(data: any, files) {
+  getById(id: string) {
+    return this.http.get(this.domain + '/food-item/' + id, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
+  }
+
+  remove(id:string) {
+    return this.http.delete(this.domain + '/food-item/' + id, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
+  }
+
+  upload(data: any, files) {
     const formData = new FormData();
     const xhr = new XMLHttpRequest();
     // append image only if we have files
@@ -53,37 +70,15 @@ export class RestaurantService {
     let method;
 
     if (data._id) {
-      URL = `${this.domain}/restaurant/${data._id}?token=Bearer ${localStorage.getItem('token')}`
+      URL = `${this.domain}/food-item/${data._id}?token=Bearer ${localStorage.getItem('token')}`
       method = "PUT";
     } else {
-      URL = `${this.domain}/restaurant?token=Bearer ${localStorage.getItem('token')}`
+      URL = `${this.domain}/food-item?token=Bearer ${localStorage.getItem('token')}`
       method = "POST";
     }
-
-    // xhr.open('post', `${this.domain}/restaurant?token=Bearer ${localStorage.getItem('token')}`, true);
-
     xhr.open(method, URL, true);
     xhr.send(formData);
 
     return upload;
   }
-
-  getById(id: string) {
-    return this.http.get(this.domain + '/restaurant/' + id, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    })
-  }
-
-  remove(id) {
-    return this.http.delete(this.domain + '/restaurant/' + id, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    })
-  }
-
 }
