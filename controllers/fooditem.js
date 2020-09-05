@@ -34,9 +34,8 @@ const create = (req, res, next) => {
                 status: 400
             })
         }
-        currentRestaurant = restaurant[0]
-        mappedFoodItem.restaurant_id = currentRestaurant._id
-
+        // console.log(restaurant[0]._id)
+        mappedFoodItem.restaurant = restaurant[0]._id
         mappedFoodItem.save((err, done) => {
             if (err) {
                 return next(err)
@@ -47,33 +46,47 @@ const create = (req, res, next) => {
 }
 
 const findAll = (req, res, next) => {
-    FoodItemModel.find({})
-    .then(food => {
-        if (!food) {
-            return next({
-                message: 'No food found.'
+
+    RestaurantModel.find({ 'user': req.decoded._id }, (err, restaurant) => {
+        if (err) { return next(err) }
+        if (restaurant[0] == undefined) {
+            res.status(200).json({
+                message: "No restaurant",
+                success: false
             })
+        } else {
+            const currentRestaurantId = restaurant[0]._id
+            FoodItemModel.find({ restaurant: currentRestaurantId })
+                .then(food => {
+                    if (!food) {
+                        res.status(200).json({
+                            message: "No food found",
+                            success: false
+                        })
+                    }
+                    res.status(200).json(food)
+                })
+                .catch(err => {
+                    return next(err)
+                })
         }
-        res.status(200).json(food)
     })
-    .catch(err => {
-        return next(err)
-    })
+
 }
 
 const findOne = (req, res, next) => {
     FoodItemModel.findById(req.params.id)
-    .then(food => {
-        if (!food) {
-            return next({
-                message: 'No food found.'
-            })
-        }
-        res.status(200).json(food)
-    })
-    .catch(err => {
-        return next(err)
-    })
+        .then(food => {
+            if (!food) {
+                return next({
+                    message: 'No food found.'
+                })
+            }
+            res.status(200).json(food)
+        })
+        .catch(err => {
+            return next(err)
+        })
 }
 
 const updateFoodItem = (req, res, next) => {
@@ -114,18 +127,27 @@ const updateFoodItem = (req, res, next) => {
 
 const deleteFood = (req, res, next) => {
     const id = req.params.id
+    FoodItemModel.findById(id)
+        .then(res => {
+            if (!res) {
+                return next({
+                    message: 'Not found'
+                })
+            }
+            fs.unlinkSync('./files/images/' + res.image)
+        })
 
     FoodItemModel.findByIdAndRemove(id)
         .then(food => {
-            if(!food) {
+            if (!food) {
                 return next({
                     message: 'Food not found',
                     status: 400
                 })
             }
-        })
-        res.status(200).json({
-            message: 'Food item deleted.'
+            res.status(200).json({
+                message: 'Food item deleted.'
+            })
         })
 }
 
@@ -134,5 +156,5 @@ module.exports = {
     updateFoodItem,
     findAll,
     deleteFood,
-    findOne
+    findOne,
 }

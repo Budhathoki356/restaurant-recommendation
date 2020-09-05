@@ -3,8 +3,6 @@ module.exports = function map_foodItem_req(foodItem, foodItemDetails) {
         foodItem.foodName = foodItemDetails.foodName;
     if (foodItemDetails.quantity)
         foodItem.quantity = foodItemDetails.quantity;
-    if (foodItemDetails.restaurant_id)
-        foodItem.restaurant_id = foodItemDetails.restaurant_id;
     if (foodItemDetails.unitPrice)
         foodItem.unitPrice = foodItemDetails.unitPrice;
     if (foodItemDetails.foodCategory)

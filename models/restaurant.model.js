@@ -8,7 +8,8 @@ var RestaurantSchema = new Schema({
     },
     location: {
         type: String,
-        default: 0
+        default: 0,
+        lowercase: true
     },
     user: {
         type: Schema.Types.ObjectId,

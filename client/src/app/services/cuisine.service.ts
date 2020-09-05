@@ -16,8 +16,17 @@ export class CuisineService {
     this.domain = environment.apiUrl;
   }
 
+  search(condition: any) {
+    return this.http.post(this.domain + '/search', condition, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
+  }
+
   getAll() {
-    return this.http.get(this.domain + '/food-item/', {
+    return this.http.get(this.domain + '/food-item', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -34,7 +43,7 @@ export class CuisineService {
     })
   }
 
-  remove(id:string) {
+  remove(id: string) {
     return this.http.delete(this.domain + '/food-item/' + id, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -81,4 +90,5 @@ export class CuisineService {
 
     return upload;
   }
+
 }

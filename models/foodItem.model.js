@@ -4,15 +4,16 @@ var Schema = mongoose.Schema;
 var FoodItemSchema = new Schema({
     foodName: {
         type: String,
-        require: true
+        require: true,
+        lowercase: true
     },
     quantity: {
         type: Number,
         default: 0,
         require: true
     },
-    restaurant_id: {
-        type:Schema.Types.ObjectId,
+    restaurant: {
+        type: Schema.Types.ObjectId,
         ref: 'restaurant'
     },
     unitPrice: {

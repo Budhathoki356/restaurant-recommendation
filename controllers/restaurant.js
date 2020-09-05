@@ -2,6 +2,7 @@
 const fs = require('fs')
 // models
 const RestaurantModel = require('../models/restaurant.model')
+const FoodModel = require('../models/foodItem.model')
 
 // helpers
 const mapRestaurant = require('../helpers/map_restaurant_req');
@@ -33,7 +34,7 @@ const createRestaurant = (req, res, next) => {
         if (err) {
             return next(err)
         }
-        res.status(200).json({success: true, message: 'Restaurant registered.'})
+        res.status(200).json({ success: true, message: 'Restaurant registered.', id: done._id })
     })
 }
 
@@ -89,7 +90,7 @@ const updateRestaurant = (req, res, next) => {
 
     RestaurantModel.findById(id, (err, item) => {
         if (err) { return next(err) }
-        
+
         var oldImage = item.image;
         var updatedMapItem = map_restaurant_req(item, req.body);
         updatedMapItem.save((err, updated) => {
@@ -110,16 +111,18 @@ const updateRestaurant = (req, res, next) => {
 
 const deleteRestaurant = (req, res, next) => {
     RestaurantModel.findById(req.params.id)
-    .then(res => {
-        if(!res) {return next({
-            message: 'Not found'
-        })}
-        fs.unlinkSync('./files/images/' + res.image)
-    })
+        .then(res => {
+            if (!res) {
+                return next({
+                    message: 'Not found'
+                })
+            }
+            fs.unlinkSync('./files/images/' + res.image)
+        })
 
     RestaurantModel.findByIdAndRemove(req.params.id)
         .then(restaurant => {
-            if (!restaurant) {
+            if (restaurant == undefined) {
                 return next({
                     message: 'Restaurant not found',
                     status: 400
@@ -136,10 +139,25 @@ const deleteRestaurant = (req, res, next) => {
         })
 }
 
+const checkUser = (req, res, next) => {
+    const user_id = req.params.id
+    RestaurantModel.find({ user: user_id })
+        .then(result => { 
+            if(!result) {
+                res.status(200).json({
+                    message: 'No restaurant',
+                })
+            }
+            res.status(200).json(result)
+        })
+}
+
+
 module.exports = {
     createRestaurant,
     findOne,
     findAll,
     updateRestaurant,
-    deleteRestaurant
+    deleteRestaurant,
+    checkUser
 };

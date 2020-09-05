@@ -39,4 +39,6 @@ router.put('/:id', upload.single('img'), restaurantController.updateRestaurant)
 
 router.delete('/:id', restaurantController.deleteRestaurant)
 
+router.get('/checkuser/:id', restaurantController.checkUser)
+
 module.exports = router

@@ -38,4 +38,5 @@ router.get('/:id', foodController.findOne)
 router.put('/:id', upload.single('img'), foodController.updateFoodItem)
 
 router.delete('/:id', foodController.deleteFood)
+
 module.exports = router

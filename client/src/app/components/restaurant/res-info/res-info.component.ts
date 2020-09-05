@@ -25,8 +25,8 @@ export class ResInfoComponent implements OnInit {
     private restaurantService: RestaurantService,
     private router: Router
   ) {
-    this.createForm();
-    this.displayRestaurant();
+    this.createForm()
+   
   }
 
   createForm() {
@@ -58,14 +58,13 @@ export class ResInfoComponent implements OnInit {
       this.messageClass = 'alert alert-success';
       this.message = 'Congratulation! Restaurant is registered.';
       this.notRegistered = false
-      this.displayRestaurant()
     })
   }
 
-  displayRestaurant() {
-    this.restaurantService.getRestaurant().subscribe(
+  displayRestaurant(id: string) {
+    this.restaurantService.getById(id).subscribe(
       (data: any) => {
-        this.restaurantDetail = data
+        this.restaurantDetail.push(data)
         if (this.restaurantDetail.length != 0) this.notRegistered = false
       },
       (err) => {
@@ -74,21 +73,27 @@ export class ResInfoComponent implements OnInit {
     )
   }
 
-  deleteRestaurant(id,i){
+  deleteRestaurant(id, i) {
     let confrimRemove = confirm('Are you sure to Remove?');
     if (!confrimRemove) {
       return;
     }
-    this.restaurantService.remove(id).subscribe( result => {
+    this.restaurantService.remove(id).subscribe(result => {
       this.messageClass = 'alert alert-successs'
-      this.message= 'Restaurant Deleted.'
-      this.restaurantDetail.slice(i,1)
+      this.message = 'Restaurant Deleted.'
+      this.restaurantDetail.slice(i, 1)
+      this.notRegistered = true
       this.router.navigate([''])
     })
   }
 
 
   ngOnInit(): void {
+    this.restaurantService.checkTheUser().subscribe(result => {
+      if(result[0] !== undefined) {
+        this.displayRestaurant(result[0]._id)
+      }
+    })
   }
 
 }

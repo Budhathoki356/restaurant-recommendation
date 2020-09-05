@@ -1,5 +1,3 @@
-var jwt = require('jsonwebtoken');
-var config = require('../config/index');
 
 module.exports = function(req, res, next) {
     if (req.decoded.role === 'restaurant') {

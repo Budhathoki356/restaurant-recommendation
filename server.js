@@ -9,6 +9,7 @@ var authRoute = require('./controllers/auth');
 var userRoute = require('./controllers/users');
 var restaurantRoute = require('./routes/restaurant')
 var foodItemRoute = require('./routes/footitem')
+var searchRoute = require('./routes/search')
 
 var authenticate = require('./middlewares/authenticate');
 var authorize = require('./middlewares/authorize');
@@ -37,6 +38,7 @@ app.use('/auth', authRoute);
 app.use('/user', authenticate, userRoute);
 app.use('/restaurant', authenticate, authorize, restaurantRoute);
 app.use('/food-item', authenticate, authorize, foodItemRoute)
+app.use('/search', authenticate, searchRoute)
 
 // establish connections
 app.listen(app.get('port'), function (err, data) {

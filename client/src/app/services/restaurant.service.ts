@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class RestaurantService {
 
-  domain: string;
-  restaurant;
+  domain: string
+  restaurant
+  user
 
   constructor(
     private http: HttpClient,
@@ -79,6 +80,16 @@ export class RestaurantService {
 
   remove(id) {
     return this.http.delete(this.domain + '/restaurant/' + id, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    })
+  }
+
+  checkTheUser() {
+    this.user = JSON.parse(localStorage.getItem('user'))
+    return this.http.get(this.domain + '/restaurant/checkuser/' + this.user.user_id, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`

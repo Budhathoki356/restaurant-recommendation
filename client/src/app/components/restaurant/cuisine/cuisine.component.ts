@@ -12,6 +12,9 @@ export class CuisineComponent implements OnInit {
   message;
   messageClass;
   cuisineList;
+  msg;
+  activeAddButton = true
+  activeCuisine = false;
   imageUrl = environment.imgUrl
 
   constructor(
@@ -19,13 +22,22 @@ export class CuisineComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.cuisineService.getAll().subscribe( result => {
-      this.cuisineList = result
-      console.log(this.cuisineList)
+    this.cuisineService.getAll().subscribe(result => {
+      if (result['success'] == false || result[0] == undefined) {
+        this.activeCuisine = false
+        this.msg = "No cuisine."
+      } else if (result[0] == undefined) {
+        this.activeAddButton = false
+      } else {
+        this.activeAddButton = false
+        this.cuisineList = result
+        this.msg = ""
+        this.activeCuisine = true
+      }
     })
   }
 
-  deleteCuisine(id:string, i) {
+  deleteCuisine(id: string, i) {
     let confrimRemove = confirm('Are you sure to delete?');
     if (!confrimRemove) {
       return;

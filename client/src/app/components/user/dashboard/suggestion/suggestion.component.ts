@@ -12,4 +12,11 @@ export class SuggestionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  // sendData() {
+  //   clearTimeout(time);
+  //   time = setTimeout(() => {
+  //     console.log(val)
+  //   }, 500);
+  // }
 }

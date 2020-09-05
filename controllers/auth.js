@@ -79,7 +79,8 @@ router
                             success: true,
                             user: {
                                 username : user.username,
-                                role : user.role
+                                role : user.role,
+                                user_id: user._id
                             },
                             token: token,
                             message: 'Success!',
