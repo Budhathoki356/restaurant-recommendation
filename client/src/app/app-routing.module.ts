@@ -12,6 +12,7 @@ import { CuisineComponent } from './components/restaurant/cuisine/cuisine.compon
 import { EditComponent } from './components/restaurant/res-info/edit/edit.component';
 import { CreateCuisineComponent } from './components/restaurant/cuisine/create-cuisine/create-cuisine.component';
 import { EditCuisineComponent } from './components/restaurant/cuisine/edit-cuisine/edit-cuisine.component';
+import { ProfileRestaurantComponent } from './components/user/dashboard/profile-restaurant/profile-restaurant.component';
 
 const routes: Routes = [
   {
@@ -39,17 +40,22 @@ const routes: Routes = [
       { path: 'res-info/edit/:id', component: EditComponent, canActivateChild: [AuthGuard] },
       { path: 'cuisine', component: CuisineComponent, canActivateChild: [AuthGuard] },
       { path: 'cuisine/add', component: CreateCuisineComponent, canActivateChild: [AuthGuard] },
-      { path: 'cuisine/edit/:id', component:EditCuisineComponent, canActivateChild: [AuthGuard] },
+      { path: 'cuisine/edit/:id', component: EditCuisineComponent, canActivateChild: [AuthGuard] },
     ]
   },
   {
     path: 'user/dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'restaurant-profile/:id',
+    component: ProfileRestaurantComponent,
     canActivate: [AuthGuard]
   }
 ];

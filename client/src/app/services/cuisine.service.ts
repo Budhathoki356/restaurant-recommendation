@@ -15,7 +15,7 @@ export class CuisineService {
   ) {
     this.domain = environment.apiUrl;
   }
-
+   
   search(condition: any) {
     return this.http.post(this.domain + '/search', condition, {
       headers: new HttpHeaders({

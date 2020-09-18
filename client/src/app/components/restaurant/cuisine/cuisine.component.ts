@@ -27,9 +27,9 @@ export class CuisineComponent implements OnInit {
         this.activeCuisine = false
         this.msg = "No cuisine."
       } else if (result[0] == undefined) {
-        this.activeAddButton = false
+        this.activeAddButton = true
       } else {
-        this.activeAddButton = false
+        this.activeAddButton = true
         this.cuisineList = result
         this.msg = ""
         this.activeCuisine = true

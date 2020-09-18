@@ -25,6 +25,7 @@ import { EditComponent } from './components/restaurant/res-info/edit/edit.compon
 import { CreateCuisineComponent } from './components/restaurant/cuisine/create-cuisine/create-cuisine.component';
 import { EditCuisineComponent } from './components/restaurant/cuisine/edit-cuisine/edit-cuisine.component';
 import { SearchItemsComponent } from './components/user/dashboard/serach/search-items/search-items.component';
+import { ProfileRestaurantComponent } from './components/user/dashboard/profile-restaurant/profile-restaurant.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { SearchItemsComponent } from './components/user/dashboard/serach/search-
     CreateCuisineComponent,
     EditCuisineComponent,
     SearchItemsComponent,
+    ProfileRestaurantComponent,
   ],
   imports: [
     BrowserModule,
