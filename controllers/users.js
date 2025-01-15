@@ -5,31 +5,29 @@ var router = express.Router();
 var UserModel = require('../models/user.model');
 
 router.route('/profile')
-    .get(function (req, res, next) {
-        var userid = req.decoded._id;
-        UserModel.findById({ _id: userid }).exec(function (err, user) {
-            if (err) return res.status(500).json({
-                error: err
-            });
+    .get(async function (req, res, next) {
+        const userid = req.decoded._id;
+
+        try {
+            // Use async/await to find the user by ID
+            const user = await UserModel.findById(userid);
+
             if (user) {
+                // If user is found, send back the user object with 200 OK
                 return res.status(200).json(user);
             } else {
+                // If user is not found, return a 404 Not Found response
                 return res.status(404).json({
                     message: 'User not found.'
-                })
+                });
             }
-        })
-    })
-    // .get((req, res, next) => {
-    //     UserModel.find({})
-    //         .then(users => {
-    //             res.status(200).json({
-    //                 users: users
-    //             })
-    //         })
-    //         .catch(err => {
-    //             return next(err)
-    //         })
-    // })
+        } catch (err) {
+            // If there's an error with the query or any other issue, return 500
+            return res.status(500).json({
+                error: err.message || 'An error occurred while fetching user profile.'
+            });
+        }
+    });
+
 
 module.exports = router;

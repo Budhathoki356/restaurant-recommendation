@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 var cors = require('cors');
 var morgan = require('morgan');
 
@@ -21,14 +20,11 @@ app.use(cors({
     origin: 'http://localhost:4200'
 }));
 
-// body parser
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 // Set port
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5001);
 
 // serving static files
 app.use('/files', express.static(__dirname + '/files'));
