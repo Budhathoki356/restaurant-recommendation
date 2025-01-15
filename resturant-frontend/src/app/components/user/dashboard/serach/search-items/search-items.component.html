@@ -1,0 +1,9 @@
+<h3 class="h3">Search Results</h3>
+<hr class="mb-2">
+<div class="card-deck">
+        <div class="card" *ngFor="let item of searchItems" (click)="onProfile(item['restaurant']._id)">
+            <img src="{{imageUrl}}/{{item['restaurant'].image}}" alt="Denim Jeans" style="width:100%">
+            <h1 class="mt-2">{{item['restaurant'].restaurantName}}</h1>
+            <p class="bg-info p-2 text-light">{{item['restaurant'].location}}</p>
+        </div>
+</div>

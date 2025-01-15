@@ -1,0 +1,11 @@
+<form class="pt-4" [formGroup]="searchForm" (submit)="onSearchSubmit()">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control col-sm-3" placeholder="Location" name="location" formControlName="location">
+        <input type="text" class="form-control" placeholder="Search Cuisine" name="foodName" formControlName="foodName">
+        <div class="input-group-append">
+          <input [disabled]="!searchForm.dirty" class="btn btn-outline-secondary" type="submit" value="Search">
+        </div>
+      </div>
+</form>
+
+<app-search-items [searchItems]="searchItems" ></app-search-items>
